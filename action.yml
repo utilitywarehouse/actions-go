@@ -1,0 +1,28 @@
+inputs:
+  go-version:
+    description: 'The Go version to download (if necessary) and use. Supports semver spec and ranges.'
+    required: true
+  go-stable:
+    description: 'Whether to download only stable versions of Go'
+    default: 'true'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: ${{ inputs.go-version }}
+        stable: ${{ inputs.go-stable }}
+    - name: Setup cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.cache/go-build
+          ~/go/pkg/mod
+        key: go-${{ inputs.go-version }}-${{ github.job }}-${{ github.ref }}-${{ github.sha }}
+        restore-keys: |
+          go-${{ inputs.go-version }}-${{ github.job }}-${{ github.ref }}-${{ github.sha }}
+          go-${{ inputs.go-version }}-${{ github.job }}-${{ github.ref }}-
+          go-${{ inputs.go-version }}-${{ github.job }}-refs/heads/master-
+          go-${{ inputs.go-version }}-${{ github.job }}-
