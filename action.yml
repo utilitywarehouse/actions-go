@@ -9,23 +9,25 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Set git outputs
+      id: git-output
+      run: |
+        echo "::set-output name=short-sha::$(echo ${GITHUB_SHA} | cut -c1-8)"
+      shell: bash
     - name: Setup Go
       uses: actions/setup-go@v2
       with:
         go-version: ${{ inputs.go-version }}
         stable: ${{ inputs.go-stable }}
-    - id: short-sha
-      run: echo "::set-output name=sha::$(echo ${GITHUB_SHA} | cut -c1-8)"
-      shell: bash
     - name: Setup cache
       uses: actions/cache@v2
       with:
         path: |
           ~/.cache/go-build
           ~/go/pkg/mod
-        key: go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-${{ steps.short-sha.outputs.sha }}
+        key: go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-${{ steps.git-output.outputs.short-sha }}
         restore-keys: |
-          go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-${{ steps.short-sha.outputs.sha }}
+          go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-${{ steps.git-output.outputs.short-sha }}
           go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-
           go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-refs/heads/master-
           go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-
