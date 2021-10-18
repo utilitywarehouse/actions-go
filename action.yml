@@ -20,9 +20,9 @@ runs:
         path: |
           ~/.cache/go-build
           ~/go/pkg/mod
-        key: go-${{ inputs.go-version }}-${{ github.job }}-${{ github.ref }}-${{ github.sha }}
+        key: go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-${{ github.sha }}
         restore-keys: |
-          go-${{ inputs.go-version }}-${{ github.job }}-${{ github.ref }}-${{ github.sha }}
-          go-${{ inputs.go-version }}-${{ github.job }}-${{ github.ref }}-
-          go-${{ inputs.go-version }}-${{ github.job }}-refs/heads/master-
-          go-${{ inputs.go-version }}-${{ github.job }}-
+          go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-${{ github.sha }}
+          go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-
+          go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-refs/heads/master-
+          go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-
