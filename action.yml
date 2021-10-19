@@ -23,11 +23,13 @@ runs:
       uses: actions/cache@v2
       with:
         path: |
-          ~/.cache/go-build
           ~/go/pkg/mod
-        key: go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-${{ steps.git-output.outputs.short-sha }}
+          ~/.cache/go-build
+          ~/Library/Caches/go-build
+          %LocalAppData%\go-build
+        key: ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-${{ steps.git-output.outputs.short-sha }}
         restore-keys: |
-          go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-${{ steps.git-output.outputs.short-sha }}
-          go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-
-          go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-refs/heads/master-
-          go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-
+          ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-${{ steps.git-output.outputs.short-sha }}
+          ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-
+          ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-refs/heads/master-
+          ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-
