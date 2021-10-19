@@ -31,5 +31,6 @@ runs:
         restore-keys: |
           ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-${{ steps.git-output.outputs.short-sha }}
           ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-
+          ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-refs/heads/main-
           ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-refs/heads/master-
           ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-
