@@ -1,0 +1,10 @@
+inputs:
+  name:
+    description: 'Set your name.'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - run: echo ${{ inputs.name }}
+      shell: bash
