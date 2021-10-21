@@ -1,0 +1,36 @@
+inputs:
+  go-version:
+    description: 'The Go version to download (if necessary) and use. Supports semver spec and ranges.'
+    required: true
+  go-stable:
+    description: 'Whether to download only stable versions of Go'
+    default: 'true'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set git outputs
+      id: git-output
+      run: |
+        echo "::set-output name=short-sha::$(echo ${GITHUB_SHA} | cut -c1-8)"
+      shell: bash
+    - name: Setup Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: ${{ inputs.go-version }}
+        stable: ${{ inputs.go-stable }}
+    - name: Setup cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/go/pkg/mod
+          ~/.cache/go-build
+          ~/Library/Caches/go-build
+          %LocalAppData%\go-build
+        key: ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-${{ steps.git-output.outputs.short-sha }}
+        restore-keys: |
+          ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-${{ steps.git-output.outputs.short-sha }}
+          ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-${{ github.ref }}-
+          ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-refs/heads/main-
+          ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-refs/heads/master-
+          ${{ runner.os }}-go-${{ inputs.go-version }}-${{ github.workflow }}-${{ github.job }}-

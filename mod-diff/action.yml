@@ -1,0 +1,17 @@
+inputs:
+  vendor:
+    description: 'Are Go modules stored within a vendor directory'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Mod tidy
+      run: |
+        go mod tidy
+        if [[ "${{inputs.vendor}}" != "" ]]; then
+          go mod vendor
+        fi
+      shell: bash
+    - name: Check for changes
+      run: git diff --exit-code
+      shell: bash
